@@ -13,12 +13,6 @@ function Rooms(props) {
 
     useEffect(async () => {
 
-        // const token = window.localStorage.getItem('token')
-        // const socket = await io(SOCKET_URL, {
-        //     query: {
-        //         token: token
-        //     }
-        // })
         if (socket.io != undefined) {
             setSoc(socket)
             socket.on('newRoom', room => {
@@ -32,38 +26,13 @@ function Rooms(props) {
         }
     }, [socket])
 
-    // socket.on('newMsg', msg => {
-    //     // if (selectedRoom === msg.room) {
-    //     //     addMsg(msg)
-    //     // } else {
-    //     //     console.log(msg)
-    //     //     // atualizar contador de msgs nao lidas
-    //     //     const id = msg.room
-    //     //     console.log($('#' + id + ' .notifications span'))
-    //     //     let count = parseInt($('#' + id + ' .notifications span').text())
-    //     //     count++
-    //     //     $('#' + id + ' .notifications span').text(count)
-    //     // }
-    // })
-
-    // socket.on('newAudio', msg => {
-    //     // if (selectedRoom === msg.room) {
-    //     //     addMsg(msg)
-    //     // } else {
-    //     //     // atualizar contador de msgs nao lidas
-    //     // }
-    // })
-
-    // socket.on('msgsList', msgs => {
-    //     // $('.messages').html('')
-    //     // msgs.map(addMsg)
-    // })
     return (
         <>
-
             <div className="container w-container">
                 <div className="rooms">
                     <h1 className="title-rooms">Salas Disponíveis</h1>
+
+
                     {rooms.length > 0 && <ul className="room-list w-list-unstyled">
                         {rooms.map(room => {
                             return (
@@ -74,18 +43,17 @@ function Rooms(props) {
                                 </li>
                             )
                         })}
+                        <li className="room-item" >
+                            <Link to={'/'}>
+                                Voltar
+                            </Link>
+                        </li>
                     </ul>}
                     <div className="add-room" onClick={() => soc.emit('addRoom', 'Sala 2')} style={{ cursor: 'pointer' }} > +</div>
                 </div>
                 <Route path='/rooms' exact component={SelectRoom} />
                 <Route path='/rooms/:room' render={(props) => <Room {...props} socket={soc} />} />
-
-
             </div>
-
-
-
-
         </>
 
     )

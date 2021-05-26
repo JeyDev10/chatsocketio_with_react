@@ -3,9 +3,16 @@ import SocketContext from '../../../../context/socket'
 export default function Room(props) {
     const { room } = props.match.params
     const { socket } = useContext(SocketContext)
-    const  name  = window.localStorage.getItem('name')
+    const name = window.localStorage.getItem('name')
+    const [showCleanChat, setShowCleanChat] = useState(false)
     const msgRef = useRef(null)
     const [msgs, setMsgs] = useState([])
+
+    useEffect(() => {
+        if (name.toLowerCase().includes('adm')) {
+            setShowCleanChat(true)
+        }
+    }, [name])
 
     useEffect(() => {
         if (socket.io != undefined) {
@@ -34,7 +41,7 @@ export default function Room(props) {
         }
     }
 
-    const handleCleanRoom = (event)=>{
+    const handleCleanRoom = (event) => {
         socket.emit('cleanRoom', room)
     }
 
@@ -42,7 +49,7 @@ export default function Room(props) {
         <div className="room">
             <div className="messages">
                 {msgs.length > 0 && msgs.map(msg => {
-                    return (<div className={`message ${msg.author == name? 'userMessage':''}`} key={msg._id}>
+                    return (<div className={`message ${msg.author == name ? 'userMessage' : ''}`} key={msg._id}>
                         <span className="author">{msg.author}</span>
                         <br />
                         <span className="msg-body">{msg.message}</span>
@@ -53,7 +60,9 @@ export default function Room(props) {
             <div className="new-message-form w-form">
                 <form className="form">
                     <textarea id="field" name="field" maxLength="5000" placeholder="Digite sua mensagem e pressione &lt;Enter&gt;" autoFocus={true} onKeyUp={handleKey} ref={msgRef} className="msg w-input"></textarea>
-                    <button type="button" className="send-audio w-button" onClick={handleCleanRoom}>Limpar chat</button>
+                    {showCleanChat &&
+                        <button type="button" className="send-audio w-button" onClick={handleCleanRoom}>Limpar chat</button>
+                    }
                 </form>
             </div>
         </div>

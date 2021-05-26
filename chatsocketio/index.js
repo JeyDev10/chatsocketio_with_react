@@ -12,7 +12,6 @@ mongoose.Promise = global.Promise
 const port = process.env.PORT || 3001
 const jwtSecret = process.env.JWT_SRECT || 'socketio-com-react'
 
-const bodyParser = require('body-parser')
 const session = require('express-session')
 const sharedSession = require('express-socket.io-session')
 
@@ -27,7 +26,6 @@ app.use(cors())
 const jwt = require('jsonwebtoken')
 
 
-const { response } = require('express')
 
 
 const expressSession = session({
@@ -122,20 +120,7 @@ io.on('connection', socket => {
           })
       })
   })
-  socket.on('sendAudio', msg => {
-    const message = new Message({
-      author: socket.handshake.session.user.name,
-      when: new Date(),
-      msgType: 'audio',
-      message: msg.data,
-      room: msg.room
-    })
-    message
-      .save()
-      .then(() => {
-        io.to(msg.room).emit('newAudio', message)
-      })
-  })
+
 })
 
 mongoose
