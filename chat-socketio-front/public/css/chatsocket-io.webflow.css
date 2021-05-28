@@ -139,6 +139,27 @@
   border-bottom: 1px solid #dfdfdf;
 }
 
+.room-item a{
+  color:black;
+  font-size: medium;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.name-room{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin:0;
+  padding: 3px;
+  font-size: 1.2rem;
+  background-image: linear-gradient(
+180deg
+, hsla(0, 0%, 95%, .5), hsla(0, 0%, 95%, .5));
+
+}
+
+
 .notifications {
   font-size: 12px;
   font-weight: 700;

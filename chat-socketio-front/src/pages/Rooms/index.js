@@ -32,12 +32,11 @@ function Rooms(props) {
                 <div className="rooms">
                     <h1 className="title-rooms">Salas Disponíveis</h1>
 
-
                     {rooms.length > 0 && <ul className="room-list w-list-unstyled">
                         {rooms.map(room => {
                             return (
                                 <li className="room-item" key={room._id}>
-                                    <Link to={`/rooms/${room._id}`}>
+                                    <Link to={`/rooms/${room._id}`} onClick={() => window.localStorage.setItem('room', room._id)}>
                                         {room.name}
                                     </Link>
                                 </li>
@@ -52,7 +51,7 @@ function Rooms(props) {
                     <div className="add-room" onClick={() => soc.emit('addRoom', 'Sala 2')} style={{ cursor: 'pointer' }} > +</div>
                 </div>
                 <Route path='/rooms' exact component={SelectRoom} />
-                <Route path='/rooms/:room' render={(props) => <Room {...props} socket={soc} />} />
+                <Route path='/rooms/:room' render={(props) => <Room {...props} socket={soc} rooms={rooms} />} />
             </div>
         </>
 

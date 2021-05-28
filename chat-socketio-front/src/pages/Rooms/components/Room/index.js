@@ -1,12 +1,23 @@
 import { useContext, useEffect, useRef, useState } from "react"
 import SocketContext from '../../../../context/socket'
 export default function Room(props) {
-    const { room } = props.match.params
+    const room = window.localStorage.getItem('room')
+    const { rooms } = props
     const { socket } = useContext(SocketContext)
     const name = window.localStorage.getItem('name')
     const [showCleanChat, setShowCleanChat] = useState(false)
     const msgRef = useRef(null)
     const [msgs, setMsgs] = useState([])
+
+    const [roomName, setRoomName] = useState('')
+
+
+
+    useEffect(() => {
+        const hasRoom = rooms.find((r) => r._id == room)
+        if (hasRoom)
+            setRoomName(hasRoom.name)
+    }, [rooms, room])
 
     useEffect(() => {
         if (name.toLowerCase().includes('adm')) {
@@ -14,20 +25,23 @@ export default function Room(props) {
         }
     }, [name])
 
-    useEffect(() => {
+    useEffect(async () => {
         if (socket.io != undefined) {
-            socket.emit('join', room)
+            await socket.emit('join', room)
         }
     }, [socket, room])
 
     useEffect(() => {
         if (socket.io != undefined) {
             socket.on('msgsList', msgs => {
-                setMsgs(msgs)
+                if (msgs.room == window.localStorage.getItem('room')) {
+                    let msgList = msgs.messages.filter((item) => item.room == room)
+                    setMsgs(msgList)
+                }
+
             })
         }
-
-    }, [socket])
+    }, [socket, room])
 
 
     const handleKey = (event) => {
@@ -47,6 +61,7 @@ export default function Room(props) {
 
     return (
         <div className="room">
+            <h2 className="name-room">{roomName}</h2>
             <div className="messages">
                 {msgs.length > 0 && msgs.map(msg => {
                     return (<div className={`message ${msg.author == name ? 'userMessage' : ''}`} key={msg._id}>

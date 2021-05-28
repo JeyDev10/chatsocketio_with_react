@@ -115,12 +115,18 @@
 }
 
 .message {
+  width:50%;
   margin: 10px;
   padding: 10px;
   border-radius: 4px;
   background-image: -webkit-linear-gradient(270deg, hsla(0, 0%, 100%, .5), hsla(0, 0%, 100%, .5));
   background-image: linear-gradient(180deg, hsla(0, 0%, 100%, .5), hsla(0, 0%, 100%, .5));
   box-shadow: 1px 1px 3px 0 #bbb;
+}
+
+.userMessage{
+  background-image: -webkit-linear-gradient(270deg, rgba(97, 180, 248, 0.5), hsla(0, 0%, 100%, .5));
+  margin-left: 49%;
 }
 
 .author {
@@ -132,6 +138,27 @@
   padding: 10px 0px 10px 15px;
   border-bottom: 1px solid #dfdfdf;
 }
+
+.room-item a{
+  color:black;
+  font-size: medium;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.name-room{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin:0;
+  padding: 3px;
+  font-size: 1.2rem;
+  background-image: linear-gradient(
+180deg
+, hsla(0, 0%, 95%, .5), hsla(0, 0%, 95%, .5));
+
+}
+
 
 .notifications {
   font-size: 12px;

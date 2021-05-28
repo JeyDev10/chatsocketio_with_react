@@ -13,7 +13,6 @@ export default function Login(props) {
 
     useEffect(() => {
         if (success) {
-            console.log(history)
             history.push('/rooms')
         }
     }, [success])

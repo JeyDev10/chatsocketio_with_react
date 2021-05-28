@@ -85,7 +85,7 @@ io.on('connection', socket => {
     Message
       .find({ room: roomId })
       .then(msgs => {
-        socket.emit('msgsList', msgs)
+        socket.emit('msgsList', { messages: msgs, room: roomId })
       })
   })
   socket.on('sendMsg', async msg => {
@@ -104,7 +104,7 @@ io.on('connection', socket => {
         Message
           .find({ room: msg.room })
           .then(msgs => {
-            io.sockets.emit('msgsList', msgs)
+            io.sockets.emit('msgsList', { messages: msgs, room: msg.room })
           })
 
       })
@@ -116,7 +116,7 @@ io.on('connection', socket => {
         Message
           .find({ room: roomId })
           .then(msgs => {
-            io.sockets.emit('msgsList', msgs)
+            io.sockets.emit('msgsList', { messages: msgs, room: roomId })
           })
       })
   })
